@@ -3,8 +3,13 @@ document.addEventListener('DOMContentLoaded', function () {
     checkButton.addEventListener('click', function () {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, { method: "changePage" }, function (response) {
-                if (response.method == "changePage") {
-                    alert(response.text);
+                if (!chrome.runtime.lastError) {
+                    if (response.method == "changePage") {
+                        alert(response.text);
+                    }
+                }
+                else {
+                    //error
                 }
             });
         });

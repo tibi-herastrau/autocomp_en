@@ -19,6 +19,10 @@ function complet_realizat() {
     if (conf) conf.click();
 }
 
+function parcurgere(){
+    
+}
+
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.method == "changePage") {

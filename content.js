@@ -19,28 +19,41 @@ function complet_realizat() {
     if (conf) conf.click();
 }
 
-function parcurgere(){
+let sub = [1];//, 15, 16, 20, 21, 22, 23, 25];
+function parcurgere(index) {
+    //ciclez prin toate materiile, stiind indecsii (vector cu indecsi)
+    if(index >= sub.length) return;
+    let subiecte = document.getElementById('ElevTest2015ListForm:test_input');
+    //subiecte.click();
+    subiecte.selectedIndex = sub[index];
+    console.log(subiecte.value);
+
+    //Change the ul with li elements
+    let tri = document.getElementsByClassName('ui-selectonemenu-trigger');
+    tri[1].click(); //triungiul de selectare din dreapta
     
+    /*
+    let subiecte_ul = document.getElementById('ElevTest2015ListForm:test_items');
+    let copii = subiecte_ul.childNodes;
+    // console.log(copii);
+    copii[index].click();
+    // for(let i = 0; i < copii.length; i++){
+    //     copii[i];
+    // }
+    */
+
+    press_start();
+    setTimeout(complet_realizat, 2000);
+
+    console.log(index + " " + sub[index]);
+    setTimeout(parcurgere, 1000, index+1);
+
 }
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.method == "changePage") {
-            /*let subiecte = document.getElementById('ElevTest2015ListForm:test_input');
-            let sub = [ 1];//,15,16,20,21,22,23,25 ];
-            for(let k = 0; k < sub.length; k++)*/
-            //TODO: sa ciclez prin toate materiile, stiind indecsii (vector cu indecsi)
-            {
-                /*
-                subiecte.click();
-                subiecte.selectedIndex = sub[k];
-                console.log(subiecte.value);
-                subiecte.click();*/
-
-                press_start();
-                setTimeout(complet_realizat, 2000);
-
-            }
+            parcurgere(0);
         }
     }
 );

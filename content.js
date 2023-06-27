@@ -5,6 +5,11 @@ function press_start() {
 
 function complet_realizat() {
     let collection = document.getElementsByClassName("ui-cell-editor-input");
+    if(collection){ // verific daca deja a fost completat
+        if(collection[0].firstChild.selectedIndex == 1) {
+            alert("Verifica de aici!");
+        }
+    }
     for (let i = 0; i < collection.length; i++) {
         let sel = collection[i].firstChild;
         sel.click();
@@ -30,10 +35,10 @@ function parcurgere_elevi(firstCNP) {
     press_start();
     setTimeout(complet_realizat, 2000);
     if (currCNP != firstCNP) {
-        setTimeout(reapelare, 20000, firstCNP);
+        setTimeout(reapelare, 25000, firstCNP);
     }
     else {
-        alert("Am terminat");
+        console.log("Am terminat");
     }
 }
 

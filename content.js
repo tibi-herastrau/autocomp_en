@@ -19,28 +19,39 @@ function complet_realizat() {
     if (conf) conf.click();
 }
 
-function parcurgere(){
-    
+function nextElev() {
+    let bNext = document.getElementById('ElevTest2015ListForm:nextButton');
+    bNext.click();
+}
+
+function parcurgere_elevi(firstCNP) {
+    let currCNP = document.getElementById('ElevTest2015ListForm:cnp').innerText;
+    console.log("CNP curent: " + currCNP); // do smth with this student
+    press_start();
+    setTimeout(complet_realizat, 2000);
+    if (currCNP != firstCNP) {
+        setTimeout(reapelare, 20000, firstCNP);
+    }
+    else {
+        alert("Am terminat");
+    }
+}
+
+function reapelare(firstCNP){
+    nextElev();
+    setTimeout(parcurgere_elevi, 2000, firstCNP);
 }
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.method == "changePage") {
-            /*let subiecte = document.getElementById('ElevTest2015ListForm:test_input');
-            let sub = [ 1];//,15,16,20,21,22,23,25 ];
-            for(let k = 0; k < sub.length; k++)*/
-            //TODO: sa ciclez prin toate materiile, stiind indecsii (vector cu indecsi)
-            {
-                /*
-                subiecte.click();
-                subiecte.selectedIndex = sub[k];
-                console.log(subiecte.value);
-                subiecte.click();*/
+            let firstCNP = document.getElementById('ElevTest2015ListForm:cnp').innerText;
+            console.log("Primul: " + firstCNP);
 
-                press_start();
-                setTimeout(complet_realizat, 2000);
-
-            }
+            nextElev();
+            setTimeout(parcurgere_elevi, 2000, firstCNP);
+            // press_start();
+            // setTimeout(complet_realizat, 2000);
         }
     }
 );

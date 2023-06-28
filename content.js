@@ -5,11 +5,6 @@ function press_start() {
 
 function complet_realizat() {
     let collection = document.getElementsByClassName("ui-cell-editor-input");
-    if(collection){ // verific daca deja a fost completat
-        if(collection[0].firstChild.selectedIndex == 1) {
-            alert("Verifica de aici!");
-        }
-    }
     for (let i = 0; i < collection.length; i++) {
         let sel = collection[i].firstChild;
         sel.click();
@@ -31,7 +26,24 @@ function nextElev() {
 
 function parcurgere_elevi(firstCNP) {
     let currCNP = document.getElementById('ElevTest2015ListForm:cnp').innerText;
-    console.log("CNP curent: " + currCNP); // do smth with this student
+    console.log("Curent: " + currCNP); // do smth with this student
+
+    //Check if already completed
+    let collection = document.getElementsByClassName("ui-cell-editor-input");
+    if(collection) if(collection[0]) if(collection[0].firstChild) { // verific daca deja a fost completat
+        //if(collection[collection.length-1].firstChild.selectedIndex == 1) 
+        {
+            console.log("Verifica de aici!");
+            if (currCNP != firstCNP) {
+                setTimeout(reapelare, 2000, firstCNP);
+            }
+            else {
+                console.log("Am terminat");
+            }
+            return;
+        }
+    }
+
     press_start();
     setTimeout(complet_realizat, 2000);
     if (currCNP != firstCNP) {
@@ -49,14 +61,17 @@ function reapelare(firstCNP){
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        if (request.method == "changePage") {
+        if (request.method == "realizatCont") {
             let firstCNP = document.getElementById('ElevTest2015ListForm:cnp').innerText;
             console.log("Primul: " + firstCNP);
 
             nextElev();
             setTimeout(parcurgere_elevi, 2000, firstCNP);
-            // press_start();
-            // setTimeout(complet_realizat, 2000);
+            
+        }
+        else if(request.method == "realizatUnu"){
+            press_start();
+            setTimeout(complet_realizat, 2000);
         }
     }
 );
